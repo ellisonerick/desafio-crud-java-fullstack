@@ -26,18 +26,17 @@ Projeto desenvolvido como parte do processo seletivo da **Nexum**, com o objetiv
 
 ## ⚙️ Estrutura do projeto
 
+```bash
 Projeto/
 ├── backend/
-
-│ └── pessoas/
-
-│ ├── src/
-│ ├── pom.xml
-│ └── ...
+│   └── pessoas/
+│       ├── src/
+│       ├── pom.xml
+│       └── ...
 └── frontend/
-├── src/
-├── package.json
-└── ...
+    ├── src/
+    ├── package.json
+    └── ...
 
 
 ## 💡 Funcionalidades

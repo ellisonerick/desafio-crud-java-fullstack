@@ -2,6 +2,12 @@
   <div class="container mt-4">
     <h2 class="text-center mb-4">Cadastrar Pessoa</h2>
 
+    <AlertMessage
+      v-if="alerta.message"
+      :type="alerta.type"
+      :message="alerta.message"
+    />
+
     <form @submit.prevent="cadastrarPessoa" class="col-md-6 offset-md-3">
       <div class="mb-3">
         <label for="nome" class="form-label">Nome Completo</label>
@@ -33,9 +39,11 @@
 
 <script>
 import api from '../services/api'
+import AlertMessage from '../components/AlertMessage.vue'
 
 export default {
   name: 'CadastrarPessoa',
+  components: { AlertMessage },
   data() {
     return {
       pessoa: {
@@ -43,6 +51,10 @@ export default {
         cpfCnpj: '',
         telefone: '',
         email: ''
+      },
+      alerta: {
+        message: '',
+        type: ''
       }
     }
   },
@@ -50,11 +62,11 @@ export default {
     async cadastrarPessoa() {
       try {
         await api.post('/pessoas', this.pessoa)
-        alert('Pessoa cadastrada com sucesso!')
-        this.$router.push('/')
+        this.alerta = { message: 'Pessoa cadastrada com sucesso!', type: 'success' }
+        setTimeout(() => this.$router.push('/'), 1500)
       } catch (error) {
         console.error('Erro ao cadastrar pessoa:', error)
-        alert('Erro ao cadastrar pessoa!')
+        this.alerta = { message: 'Erro ao cadastrar pessoa!', type: 'error' }
       }
     }
   }

@@ -2,6 +2,12 @@
   <div class="container mt-4">
     <h2 class="text-center mb-4">Editar Pessoa</h2>
 
+    <AlertMessage
+      v-if="alerta.message"
+      :type="alerta.type"
+      :message="alerta.message"
+    />
+
     <form @submit.prevent="atualizarPessoa" class="col-md-6 offset-md-3">
       <div class="mb-3">
         <label for="nome" class="form-label">Nome Completo</label>
@@ -57,9 +63,11 @@
 
 <script>
 import api from '../services/api'
+import AlertMessage from '../components/AlertMessage.vue'
 
 export default {
   name: 'EditarPessoa',
+  components: { AlertMessage },
   data() {
     return {
       pessoa: {
@@ -67,6 +75,10 @@ export default {
         cpfCnpj: '',
         telefone: '',
         email: ''
+      },
+      alerta: {
+        message: '',
+        type: ''
       }
     }
   },
@@ -77,7 +89,7 @@ export default {
       this.pessoa = response.data
     } catch (error) {
       console.error('Erro ao carregar pessoa:', error)
-      alert('Erro ao carregar dados da pessoa!')
+      this.alerta = { message: 'Erro ao carregar dados da pessoa!', type: 'error' }
     }
   },
   methods: {
@@ -85,11 +97,11 @@ export default {
       const id = this.$route.params.id
       try {
         await api.put(`/pessoas/${id}`, this.pessoa)
-        alert('Pessoa atualizada com sucesso!')
-        this.$router.push('/')
+        this.alerta = { message: 'Pessoa atualizada com sucesso!', type: 'success' }
+        setTimeout(() => this.$router.push('/'), 1500)
       } catch (error) {
         console.error('Erro ao atualizar pessoa:', error)
-        alert('Erro ao atualizar pessoa!')
+        this.alerta = { message: 'Erro ao atualizar pessoa!', type: 'error' }
       }
     }
   }

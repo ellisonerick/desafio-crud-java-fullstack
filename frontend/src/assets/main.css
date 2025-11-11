@@ -1,35 +1,25 @@
-@import './base.css';
+body {
+  background-color: #f2f4f7;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+}
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
+/* card principal (aplicado somente ao main) */
+.content-card {
+  background: #ffffff;
   padding: 2rem;
-  font-weight: normal;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  margin-top: 2rem;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
-}
+/* deixe .container apenas para layout do bootstrap sem sobrescrever */
+#app { margin-top: 0; }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}
-
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+h2 {
+  font-weight: 600;
+  color: #222;
+  text-align: center;
+  margin-bottom: 2rem;
 }

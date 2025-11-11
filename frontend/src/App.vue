@@ -1,23 +1,17 @@
 <template>
-  <div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-      <div class="container">
-        <a class="navbar-brand" href="#">CRUD de Pessoas</a>
-        <div class="navbar-nav">
-          <router-link to="/" class="nav-link">Listar</router-link>
-          <router-link to="/cadastrar" class="nav-link">Cadastrar</router-link>
-        </div>
-      </div>
-    </nav>
-
-    <div class="container">
+  <div id="app">
+    <Navbar />
+    <main class="content-card container mt-4">
       <router-view />
-    </div>
+    </main>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'App'
-}
+import Navbar from './components/Navbar.vue'
+export default { components: { Navbar } }
 </script>
+
+<style>
+#app { margin: 0; padding: 0; }
+</style>

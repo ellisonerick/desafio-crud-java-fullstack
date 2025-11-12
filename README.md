@@ -75,10 +75,12 @@ O frontend será iniciado em:
 
 http://localhost:5173
 
+
 🧩 Integração entre backend e frontend
 
 O frontend consome os endpoints da API REST configurada no backend.
 Certifique-se de que o Spring Boot esteja rodando antes de iniciar o Vue.js, para que as requisições funcionem corretamente.
+
 
 🖼️ Interface
 
@@ -92,9 +94,11 @@ Alertas visuais de sucesso e erro
 
 Modal de confirmação para exclusão
 
+
 💡 Observação
 
 O projeto foi desenvolvido com foco em boas práticas, organização e clareza de código, refletindo o processo completo de criação de uma aplicação fullstack.
+
 
 👨‍💻 Autor
 Ellison Erick Diniz da Silva

@@ -25,6 +25,7 @@ A aplicação é composta por um **backend em Java (Spring Boot)** e um **fronte
 
 ## 🏗️ Estrutura do projeto
 
+```bash
 Projeto/
 ├── backend/
 │   └── pessoas/
@@ -35,7 +36,7 @@ Projeto/
     ├── src/
     ├── package.json
     └── ...
-
+´´´
 ## 🚀 Como executar o projeto localmente
 
 ### 🔹 **Pré-requisitos**

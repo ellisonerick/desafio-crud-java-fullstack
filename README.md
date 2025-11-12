@@ -53,11 +53,12 @@ Certifique-se de ter instalado em sua máquina:
 ```bash
 git clone https://github.com/ellisonerick/desafio-crud-java-fullstack.git
 cd desafio-crud-java-fullstack/Projeto
-
+```
 🔹 Rodar o backend (Spring Boot)
+```bash
 cd backend/pessoas
 mvn spring-boot:run
-
+```
 O backend será iniciado em:
 
 http://localhost:8080
@@ -65,11 +66,11 @@ http://localhost:8080
 🔹 Rodar o frontend (Vue.js)
 
 Em outro terminal:
-
+```bash
 cd frontend
 npm install
 npm run dev
-
+```
 O frontend será iniciado em:
 
 http://localhost:5173

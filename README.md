@@ -36,7 +36,7 @@ Projeto/
     ├── src/
     ├── package.json
     └── ...
-´´´
+```
 ## 🚀 Como executar o projeto localmente
 
 ### 🔹 **Pré-requisitos**

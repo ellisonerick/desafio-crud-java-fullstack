@@ -25,7 +25,6 @@ A aplicação é composta por um **backend em Java (Spring Boot)** e um **fronte
 
 ## 🏗️ Estrutura do projeto
 
-```bash
 Projeto/
 ├── backend/
 │   └── pessoas/

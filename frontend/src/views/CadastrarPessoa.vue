@@ -16,12 +16,27 @@
 
       <div class="mb-3">
         <label for="cpfCnpj" class="form-label">CPF/CNPJ</label>
-        <input type="text" id="cpfCnpj" v-model="pessoa.cpfCnpj" class="form-control" required />
+        <input
+          type="text"
+          id="cpfCnpj"
+          v-model="pessoa.cpfCnpj"
+          class="form-control"
+          @input="pessoa.cpfCnpj = formatarCpfCnpj(pessoa.cpfCnpj)"
+          maxlength="18"
+          required
+        />
       </div>
 
       <div class="mb-3">
         <label for="telefone" class="form-label">Telefone</label>
-        <input type="text" id="telefone" v-model="pessoa.telefone" class="form-control" />
+        <input
+          type="text"
+          id="telefone"
+          v-model="pessoa.telefone"
+          class="form-control"
+          @input="pessoa.telefone = formatarTelefone(pessoa.telefone)"
+          maxlength="15"
+        />
       </div>
 
       <div class="mb-3">
@@ -59,6 +74,42 @@ export default {
     }
   },
   methods: {
+    // -------------------------
+    // MÁSCARA CPF / CNPJ
+    // -------------------------
+    formatarCpfCnpj(valor) {
+      if (!valor) return '';
+      valor = valor.replace(/\D/g, '');
+
+      // CPF
+      if (valor.length <= 11) {
+        return valor
+          .replace(/(\d{3})(\d)/, '$1.$2')
+          .replace(/(\d{3})(\d)/, '$1.$2')
+          .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+      }
+
+      // CNPJ
+      return valor
+        .replace(/^(\d{2})(\d)/, '$1.$2')
+        .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+        .replace(/\.(\d{3})(\d)/, '.$1/$2')
+        .replace(/(\d{4})(\d)/, '$1-$2');
+    },
+
+    // -------------------------
+    // MÁSCARA TELEFONE
+    // -------------------------
+    formatarTelefone(valor) {
+      if (!valor) return '';
+      valor = valor.replace(/\D/g, '');
+
+      return valor
+        .replace(/^(\d{2})(\d)/, '($1) $2')
+        .replace(/(\d{5})(\d)/, '$1-$2')
+        .substring(0, 15);
+    },
+
     async cadastrarPessoa() {
       try {
         await api.post('/pessoas', this.pessoa)

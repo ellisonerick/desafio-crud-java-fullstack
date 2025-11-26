@@ -27,6 +27,8 @@
           id="cpfCnpj"
           v-model="pessoa.cpfCnpj"
           class="form-control"
+          @input="pessoa.cpfCnpj = formatarCpfCnpj(pessoa.cpfCnpj)"
+          maxlength="18"
           required
         />
       </div>
@@ -38,7 +40,8 @@
           id="telefone"
           v-model="pessoa.telefone"
           class="form-control"
-          placeholder="(99) 99999-9999"
+          @input="pessoa.telefone = formatarTelefone(pessoa.telefone)"
+          maxlength="15"
         />
       </div>
 
@@ -62,48 +65,110 @@
 </template>
 
 <script>
-import api from '../services/api'
-import AlertMessage from '../components/AlertMessage.vue'
+import api from "../services/api";
+import AlertMessage from "../components/AlertMessage.vue";
 
 export default {
-  name: 'EditarPessoa',
+  name: "EditarPessoa",
   components: { AlertMessage },
+
   data() {
     return {
       pessoa: {
-        nome: '',
-        cpfCnpj: '',
-        telefone: '',
-        email: ''
+        nome: "",
+        cpfCnpj: "",
+        telefone: "",
+        email: "",
       },
       alerta: {
-        message: '',
-        type: ''
-      }
-    }
+        message: "",
+        type: "",
+      },
+    };
   },
+
   async mounted() {
-    const id = this.$route.params.id
+    const id = this.$route.params.id;
+
     try {
-      const response = await api.get(`/pessoas/${id}`)
-      this.pessoa = response.data
+      const response = await api.get(`/pessoas/${id}`);
+
+      // Aplica máscaras automaticamente ao carregar os dados
+      this.pessoa = {
+        ...response.data,
+        cpfCnpj: this.formatarCpfCnpj(response.data.cpfCnpj),
+        telefone: this.formatarTelefone(response.data.telefone),
+      };
     } catch (error) {
-      console.error('Erro ao carregar pessoa:', error)
-      this.alerta = { message: 'Erro ao carregar dados da pessoa!', type: 'error' }
+      console.error("Erro ao carregar pessoa:", error);
+      this.alerta = {
+        message: "Erro ao carregar dados da pessoa!",
+        type: "error",
+      };
     }
   },
+
   methods: {
-    async atualizarPessoa() {
-      const id = this.$route.params.id
-      try {
-        await api.put(`/pessoas/${id}`, this.pessoa)
-        this.alerta = { message: 'Pessoa atualizada com sucesso!', type: 'success' }
-        setTimeout(() => this.$router.push('/'), 1500)
-      } catch (error) {
-        console.error('Erro ao atualizar pessoa:', error)
-        this.alerta = { message: 'Erro ao atualizar pessoa!', type: 'error' }
+    // -------------------------
+    // MÁSCARA CPF / CNPJ
+    // -------------------------
+    formatarCpfCnpj(valor) {
+      if (!valor) return "";
+      valor = valor.replace(/\D/g, "");
+
+      // CPF
+      if (valor.length <= 11) {
+        return valor
+          .replace(/(\d{3})(\d)/, "$1.$2")
+          .replace(/(\d{3})(\d)/, "$1.$2")
+          .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
       }
-    }
-  }
-}
+
+      // CNPJ
+      return valor
+        .replace(/^(\d{2})(\d)/, "$1.$2")
+        .replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
+        .replace(/\.(\d{3})(\d)/, ".$1/$2")
+        .replace(/(\d{4})(\d)/, "$1-$2");
+    },
+
+    // -------------------------
+    // MÁSCARA TELEFONE
+    // -------------------------
+    formatarTelefone(valor) {
+      if (!valor) return "";
+      valor = valor.replace(/\D/g, "");
+
+      return valor
+        .replace(/^(\d{2})(\d)/, "($1) $2")
+        .replace(/(\d{5})(\d)/, "$1-$2")
+        .substring(0, 15);
+    },
+
+    async atualizarPessoa() {
+      const id = this.$route.params.id;
+
+      try {
+        await api.put(`/pessoas/${id}`, {
+          ...this.pessoa,
+          cpfCnpj: this.pessoa.cpfCnpj.replace(/\D/g, ""),
+          telefone: this.pessoa.telefone.replace(/\D/g, ""),
+        });
+
+        this.alerta = {
+          message: "Pessoa atualizada com sucesso!",
+          type: "success",
+        };
+
+        setTimeout(() => this.$router.push("/"), 1500);
+      } catch (error) {
+        console.error("Erro ao atualizar pessoa:", error);
+        this.alerta = {
+          message: "Erro ao atualizar pessoa!",
+          type: "error",
+        };
+      }
+    },
+  },
+};
 </script>

@@ -17,13 +17,13 @@ public class PessoaController {
     @Autowired
     private PessoaRepository repository;
 
-    // Listar todas as pessoas
+    // listar todas as pessoas
     @GetMapping
     public List<Pessoa> listar() {
         return repository.findAll();
     }
 
-    // Buscar pessoa por ID
+    // *buscar pessoa por ID
     @GetMapping("/{id}")
     public ResponseEntity<Pessoa> buscarPorId(@PathVariable Long id) {
         Optional<Pessoa> pessoa = repository.findById(id);
